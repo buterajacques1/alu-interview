@@ -1,3 +1,9 @@
+#!/usr/bin/python3
+"""
+Interview question on minimum operation
+"""
+
+
 def minOperations(n):
     if n <= 1:
         return 0
