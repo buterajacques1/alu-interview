@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 def rain(walls):
-    """Calculate how many square units of water will be retained after it rains.
+    """Calculate how much rainwater is retained in a given list of walls.
 
     Args:
         walls (List[int]): A list of non-negative integers representing the
@@ -13,23 +13,29 @@ def rain(walls):
     if not walls:
         return 0
 
-    n = len(walls)
-    left = [0] * n
-    right = [0] * n
+    size = len(walls) - 1
+    prev = walls[0]
+    index = 0
+    aux = 0
+    water_retained = 0
 
-    # Calculate the maximum height of walls to the left of each position.
-    left[0] = walls[0]
-    for i in range(1, n):
-        left[i] = max(left[i - 1], walls[i])
+    for i in range(1, size + 1):
+        if walls[i] >= prev:
+            aux = 0
+            index = i
+            prev = walls[i]
+        else:
+            aux += prev - walls[i]
+            water_retained += prev - walls[i]
 
-    # Calculate the maximum height of walls to the right of each position.
-    right[n - 1] = walls[n - 1]
-    for i in range(n - 2, -1, -1):
-        right[i] = max(right[i + 1], walls[i])
+    if index < size:
+        prev = walls[i]
+        water_retained -= aux
 
-    # Calculate the amount of water retained at each position.
-    water = 0
-    for i in range(n):
-        water += min(left[i], right[i]) - walls[i]
+        for i in range(size, index - 1, -1):
+            if walls[i] >= prev:
+                prev = walls[i]
+            else:
+                water_retained += prev - walls[i]
 
-    return water
+    return water_retained
